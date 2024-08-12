@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hellmet Sensi</title>
+    <style>
+        /* Adicione o estilo aqui */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://i.imgur.com/Da6Zgr2.jpeg') no-repeat center center fixed; /* Imagem de fundo */
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .header {
+            width: 100%;
+            background-color: rgba(75, 0, 130, 0.8); /* Roxo com transparência */
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .menu-button {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            background-color: rgba(128, 0, 128, 0.7); /* Roxo escuro translúcido */
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .menu-button:hover {
+            background-color: rgba(128, 0, 128, 0.9); /* Mudança de cor ao passar o mouse */
+        }
+
+        .menu {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: rgba(75, 0, 130, 0.8); /* Roxo com transparência */
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .menu img {
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%; /* Faz a imagem ficar redonda */
+            margin-bottom: 20px;
+        }
+
+        .menu h2 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .menu a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .menu a:hover {
+            background-color: rgba(128, 0, 128, 0.6); /* Mudança de cor ao passar o mouse */
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 36px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Branco translúcido */
+            width: 90%;
+            max-width: 1000px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 20px;
+            border-radius: 10px;
+            color: #4B0082; /* Cor roxa escura */
+        }
+
+        .content h2 {
+            margin-bottom: 20px;
+            color: #4B0082; /* Cor roxa escura */
+        }
+
+        .content p {
+            margin-bottom: 20px;
+            color: #4B0082;
+        }
+
+        .promo-text {
+            font-size: 1.2em;
+            color: #4B0082; /* Cor roxa escura */
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .promo-text strong {
+            font-size: 1.4em;
+        }
+
+        .promo-text .highlight {
+            color: #9400D3; /* Destaque em roxo mais escuro */
+        }
+
+        /* Estilos para o iframe */
+        #iframe-container {
+            width: 100%;
+            height: 600px;
+            margin-top: 20px;
+            border: none;
+            display: none;
+        }
+
+        /* Estilos para a página de chat */
+        #chat-container {
+            display: none;
+            width: 100%;
+            height: 600px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #chat-box {
+            height: 80%;
+            overflow-y: scroll;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+
+        .response-buttons {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .response-buttons button {
+            padding: 10px;
+            border: none;
+            background: #4B0082;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .response-buttons button:hover {
+            background: #3d006a;
+        }
+
+        .contact-photo {
+            margin-top: 20px;
+        }
+
+        .contact-photo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #4B0082; /* Borda roxa escura */
+            transition: transform 0.3s;
+        }
+
+        .contact-photo img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <button class="menu-button" onclick="openMenu()">☰ Menu</button>
+        <h1>Hellmet Sensi</h1>
+    </div>
+
+    <div id="menu" class="menu">
+        <a href="javascript:void(0)" class="close-menu" onclick="closeMenu()">&times;</a>
+        <img src="https://i.imgur.com/Da6Zgr2.jpeg" alt="Logo do Site">
+        <h2>Hellmet Sensi</h2>
+        <a href="#" onclick="showHome()">Página Inicial</a>
+        <a href="#" onclick="showProducts()">Hellmet Sensitivity</a>
+        <a href="#" onclick="showChat()">Chat Hellmet</a>
+        <a href="#" onclick="showContact()">Contato</a>
+    </div>
+
+    <div class="content">
+        <h2>Bem-vindo à Hellmet Sensi</h2>
+        <div class="description">
+            <div class="promo-text">
+                💥 <strong>Está cansado de não dar capa?</strong> 💥<br><br>
+                🔥 Compre a <span class="highlight">*Hellmet Sensi*</span>, um gerador de sensibilidade que vai revolucionar seu jogo! 🔥<br><br>
+                🎯 Tenha a precisão que sempre sonhou e leve suas partidas para o próximo nível.<br><br>
+                🎁 <strong>Bônus:</strong> Ganhe até <strong>2 meses grátis</strong> ao adquirir agora! Não perca essa chance de se tornar o rei do headshot! 👑<br><br>
+                ⚡ <strong>O que está esperando?</strong> Entre em ação com a <span class="highlight">*Hellmet Sensi*</span> e domine seus adversários! ⚡
+            </div>
+        </div>
+        <iframe id="iframe-container" src=""></iframe>
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <div class="response-buttons">
+                <button onclick="sendBotResponse('oi')">Oi</button>
+                <button onclick="sendBotResponse('olá')">Olá</button>
+                <button onclick="sendBotResponse('Pq algum vai querer comprar Hellmet Sensi?')">Pq algum vai querer comprar Hellmet Sensi?</button>
+                <button onclick="sendBotResponse('Como funciona o Hellmet Sensi?')">Como funciona o Hellmet Sensi?</button>
+                <button onclick="sendBotResponse('Qual é o preço do Hellmet Sensi?')">Qual é o preço do Hellmet Sensi?</button>
+                <button onclick="sendBotResponse('Como obter o código?')">Como obter o código?</button>
+                <button onclick="sendBotResponse('Quais são os benefícios do Hellmet Sensi?')">Quais são os benefícios do Hellmet Sensi?</button>
+                <button onclick="sendBotResponse('O Hellmet Sensi tem garantia?')">O Hellmet Sensi tem garantia?</button>
+                <button onclick="sendBotResponse('Tem algum desconto atual?')">Tem algum desconto atual?</button>
+            </div>
+        </div>
+        <div id="contact-container" style="display: none;">
+            <h2>Contato</h2>
+            <p>Para entrar em contato conosco, clique na foto abaixo e você será redirecionado para o perfil da nossa empresa no Instagram. Lá, você pode nos enviar uma mensagem direta para mais informações.</p>
+            <div class="contact-photo">
+                <a href="https://www.instagram.com/hellmetsensi_premium?igsh=MWxrcG9hOGltNnoycQ==">
+                    <img src="https://i.imgur.com/Da6Zgr2.jpeg" alt="Foto de Contato">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openMenu() {
+            document.getElementById("menu").style.left = "0";
+        }
+
+        function closeMenu() {
+            document.getElementById("menu").style.left = "-250px";
+        }
+
+        function showHome() {
+            document.getElementById('iframe-container').style.display = 'none';
+            document.getElementById('chat-container').style.display = 'none';
+            document.getElementById('contact-container').style.display = 'none';
+            document.querySelector('.description').style.display = 'block';
+        }
+
+        function showProducts() {
+            document.getElementById('iframe-container').style.display = 'block';
+            document.getElementById('iframe-container').src = 'https://hellmet64f.github.io/Hellmet-sensi-/';
+            document.getElementById('chat-container').style.display = 'none';
+            document.getElementById('contact-container').style.display = 'none';
+            document.querySelector('.description').style.display = 'none';
+        }
+
+        function showChat() {
+            document.getElementById('iframe-container').style.display = 'none';
+            document.getElementById('chat-container').style.display = 'block';
+            document.getElementById('contact-container').style.display = 'none';
+            document.querySelector('.description').style.display = 'none';
+        }
+
+        function showContact() {
+            document.getElementById('iframe-container').style.display = 'none';
+            document.getElementById('chat-container').style.display = 'none';
+            document.getElementById('contact-container').style.display = 'block';
+            document.querySelector('.description').style.display = 'none';
+        }
+
+        function sendBotResponse(question) {
+            const chatBox = document.getElementById('chat-box');
+            const botResponse = getBotResponse(question);
+
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `Bot: ${botResponse}`;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight; // Rola para a última mensagem
+        }
+
+        function getBotResponse(question) {
+            // Respostas básicas do bot
+            const responses = {
+                'oi': 'Olá! Como posso ajudar você hoje?',
+                'olá': 'Olá! Em que posso te ajudar?',
+                'Pq algum vai querer comprar Hellmet Sensi?': 'Porque o Hellmet Sensi é um gerador de sensibilidade que fornece um código permanente, sem necessidade de atualizações ou compras adicionais.',
+                'Como funciona o Hellmet Sensi?': 'O Hellmet Sensi é um gerador de sensibilidade que melhora sua precisão no jogo, com um código permanente.',
+                'Qual é o preço do Hellmet Sensi?': 'O preço do Hellmet Sensi é R$20.',
+                'Como obter o código?': 'Para obter o código, vá em Contato e clique na foto para ir ao perfil da nossa empresa.',
+                'Quais são os benefícios do Hellmet Sensi?': 'Os benefícios incluem uma precisão de jogo melhorada e um código de sensibilidade permanente.',
+                'O Hellmet Sensi tem garantia?': 'Sim, oferecemos garantia de 6 meses para o Hellmet Sensi.',
+                'Tem algum desconto atual?': 'No momento, temos uma oferta de 2 meses grátis na compra do Hellmet Sensi.',
+                'default': 'Desculpe, não entendi sua pergunta. Pode reformular?'
+            };
+
+            return responses[question] || responses['default'];
+        }
+    </script>
+
+</body>
+</html>
