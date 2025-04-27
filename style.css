@@ -1,4 +1,163 @@
-html {
-  height: 100%;
+body {
+  background: #f5f5dc; /* cor de papel antigo */
+  font-family: 'Georgia', serif;
+  padding: 40px;
+}
+
+.contrato {
+  background: #fffaf0;
+  border: 2px solid #d2b48c;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 700px;
+  margin: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+h1, h2 {
+  text-align: center;
+  color: #5a4635;
+}
+
+label {
+  font-weight: bold;
+  color: #5a4635;
+}
+
+input, select {
   width: 100%;
+  padding: 10px;
+  margin: 10px 0 20px;
+  border: 1px solid #c0a16b;
+  border-radius: 5px;
+  background: #fff;
+}
+
+button {
+  background-color: #5a4635;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #7b6147;
+}
+
+.assinatura {
+  margin-top: 40px;
+  text-align: center;
+  color: #5a4635;
+  font-style: italic;
+}
+
+.nome-digitalizado {
+  font-size: 30px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #5a4635;
+  white-space: nowrap;
+  border-right: 3px solid #5a4635;
+  display: inline-block;
+  padding-right: 10px;
+  overflow: hidden;
+  width: 0;
+  animation: none;
+}
+
+.caneta {
+  display: inline-block;
+  font-size: 25px;
+  margin-left: 10px;
+  opacity: 0;
+  animation: balancar 1s infinite, mostrarCaneta 1s forwards;
+}
+
+@keyframes digitar {
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes balancar {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes mostrarCaneta {
+  to {
+    opacity: 1;
+  }
+}
+
+.carimbo {
+  display: block;
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #d2b48c;
+  color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.carimbo a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.carimbo a:hover {
+  text-decoration: underline;
+}
+
+.regras {
+  display: none;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border: 2px solid #d2b48c;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  animation: aparecerRegras 0.5s ease-in-out;
+}
+
+.regras h3 {
+  text-align: center;
+  color: #5a4635;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.regras ul {
+  color: #5a4635;
+  font-size: 18px;
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.regras ul li {
+  margin: 10px 0;
+}
+
+.regras p {
+  font-size: 16px;
+  color: #5a4635;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.regras p strong {
+  color: #d2b48c;
+}
+
+@keyframes aparecerRegras {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
