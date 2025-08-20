@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Web Sandbox (Protegido)</title>
+    <style>
+        :root { --editor-bg: #282c34; --text-color: #abb2bf; --header-bg: #21252b; --accent-color: #61afef; --status-color: #98c379; --line-number-color: #4b5263; }
+        html, body { height: 100%; margin: 0; }
+        body { font-family: "SF Mono", "Consolas", "Monaco", monospace; background-color: var(--header-bg); color: var(--text-color); }
+        /* Esconde o painel por padrão */
+        #panel-wrapper { display: none; height: 100%; flex-direction: column; }
+        #access-denied { display: flex; justify-content: center; align-items: center; height: 100vh; font-size: 1.5em; color: #e74c3c; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 2px solid var(--accent-color); flex-shrink: 0; }
+        h1 { margin: 0; font-size: 1.2em; }
+        .controls button { background: var(--accent-color); color: #fff; border: none; border-radius: 5px; padding: 8px 15px; cursor: pointer; margin-left: 10px; font-family: inherit; }
+        #save-status { color: var(--status-color); font-weight: bold; opacity: 0; transition: opacity 0.5s; margin-left: 20px; }
+        #save-status.visible { opacity: 1; }
+        .editor-wrapper { flex-grow: 1; display: flex; position: relative; }
+        .line-numbers { flex-shrink: 0; background-color: var(--header-bg); padding: 15px 10px; text-align: right; color: var(--line-number-color); user-select: none; font-size: 16px; line-height: 1.5; overflow: hidden; }
+        #code-editor { flex-grow: 1; background-color: var(--editor-bg); color: var(--text-color); border: none; font-size: 16px; line-height: 1.5; padding: 15px; resize: none; box-sizing: border-box; outline: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Conteúdo do painel, escondido por padrão -->
+    <div id="panel-wrapper">
+        <div class="header">
+            <h1>Web Sandbox</h1>
+            <div class="controls">
+                <button id="reset-button">Resetar Exemplo</button>
+                <button id="clear-button">Limpar Tudo</button>
+                <span id="save-status">Salvo!</span>
+            </div>
+        </div>
+        <div class="editor-wrapper">
+            <div class="line-numbers">1</div>
+            <textarea id="code-editor" spellcheck="false"></textarea>
+        </div>
+    </div>
+    
+    <!-- Mensagem de acesso negado -->
+    <div id="access-denied" style="display: none;">Acesso Negado.</div>
+
+    <script>
+        // =================== SCRIPT DE AUTENTICAÇÃO ===================
+        const correctPassword = "Miguel legal12323kso"; // <-- SUA SENHA ESTÁ AQUI!
+        
+        const enteredPassword = prompt("Por favor, digite a senha de acesso ao painel:");
+
+        if (enteredPassword === correctPassword) {
+            // Se a senha estiver correta, mostra o painel
+            document.getElementById('panel-wrapper').style.display = 'flex';
+        } else {
+            // Se estiver errada, mostra a mensagem de acesso negado
+            document.getElementById('access-denied').style.display = 'flex';
+        }
+        // =============================================================
+
+
+        // O restante do código do painel só é executado se a senha estiver correta
+        if (enteredPassword === correctPassword) {
+            const storageKey = 'web_sandbox_source_code_v6';
+            const codeEditor = document.getElementById('code-editor');
+            const lineNumbers = document.querySelector('.line-numbers');
+            const saveStatus = document.getElementById('save-status');
+            const resetButton = document.getElementById('reset-button');
+            const clearButton = document.getElementById('clear-button');
+
+            const defaultCode = `<!-- Bem-vindo ao Web Sandbox! -->
+<div class="card"><h1>Site Padrão</h1><p>Edite este conteúdo no painel.</p></div>
+<style>body { font-family: sans-serif; text-align: center; padding-top: 50px; }</style>
+<script><\/script>`;
+
+            function updateLineNumbers() {
+                const lineCount = codeEditor.value.split('\\n').length;
+                lineNumbers.innerHTML = Array.from({ length: lineCount }, (_, i) => i + 1).join('<br>');
+            }
+            function saveData() {
+                localStorage.setItem(storageKey, codeEditor.value);
+                saveStatus.classList.add('visible');
+                setTimeout(() => saveStatus.classList.remove('visible'), 1500);
+            }
+            document.addEventListener('DOMContentLoaded', () => {
+                const savedData = localStorage.getItem(storageKey);
+                codeEditor.value = savedData || defaultCode;
+                updateLineNumbers();
+            });
+            let debounceTimeout;
+            codeEditor.addEventListener('input', () => {
+                updateLineNumbers();
+                clearTimeout(debounceTimeout);
+                debounceTimeout = setTimeout(saveData, 300);
+            });
+            codeEditor.addEventListener('scroll', () => {
+                lineNumbers.scrollTop = codeEditor.scrollTop;
+            });
+            resetButton.addEventListener('click', () => {
+                if (confirm('Tem certeza?')) {
+                    codeEditor.value = defaultCode;
+                    updateLineNumbers(); saveData();
+                }
+            });
+            clearButton.addEventListener('click', () => {
+                if (confirm('Tem certeza?')) {
+                    codeEditor.value = '';
+                    updateLineNumbers(); saveData();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
